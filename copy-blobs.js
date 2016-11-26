@@ -2,8 +2,8 @@ const _ = require( 'lodash' );
 const config = require( 'config' );
 const BlobClient = require( './lib/blob' );
 
-const sourceClient = new BlobClient( config.get( 'src.account' ) );
-const destClient = new BlobClient( config.get( 'dst.account' ) );
+const sourceClient = new BlobClient( config.get( 'source' ) );
+const destClient = new BlobClient( config.get( 'destination' ) );
 
 const copyBlob = ( container, name ) => {
 	let retries = 3;
