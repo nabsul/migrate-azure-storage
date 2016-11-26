@@ -1,6 +1,6 @@
 const _ = require( 'lodash' );
 const config = require( 'config' );
-const BlobClient = require( './lib/blob' );
+const BlobClient = require( './lib/blob-client' );
 
 const sourceClient = new BlobClient( config.get( 'source' ) );
 const destClient = new BlobClient( config.get( 'destination' ) );
