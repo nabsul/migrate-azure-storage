@@ -11,10 +11,26 @@ const copyBlobs = ( source, destination ) => {
 		const writeStreamTask = destinationClient.getWriteStreamAsync( container, name );
 		return Promise.all( [ readStreamTask, writeStreamTask ] )
 			.then( _.spread( ( readStream, writeStream ) => {
-				const pipe = readStream.pipe( writeStream );
+				readStream.pipe( writeStream );
 				return new Promise( ( resolve, reject ) => {
-					pipe.on( 'error', reject );
-					pipe.on( 'end', resolve );
+					let returned = false;
+					readStream.on( 'error', ( error ) => {
+						if ( returned ) {
+							return;
+						}
+						returned = true;
+						reject( error );
+					} );
+
+					writeStream.on( 'error', ( error ) => {
+						if ( returned ) {
+							return;
+						}
+						returned = true;
+						reject( error );
+					} );
+
+					readStream.on( 'end', resolve );
 				} );
 			} ) )
 			.then( () => {
