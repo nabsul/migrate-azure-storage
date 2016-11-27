@@ -7,7 +7,7 @@ const getAllTables = ( client, token ) => {
 		.then( ( result ) => {
 			result.entries.forEach( ( entry ) => tables.push( entry ) );
 			if ( result.continuationToken ) {
-				return listTablesAsync( client, result.continuationToken );
+				return client.listTablesAsync( client, result.continuationToken );
 			}
 		} )
 		.then( ( result ) => {

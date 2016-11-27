@@ -16,4 +16,5 @@ const chainTasks = ( task, account ) => {
 const accounts = config.get( 'accounts' );
 
 _.reduce( accounts, chainTasks, Promise.resolve() )
-	.then( () => console.log( 'all done' ) );
+	.then( () => console.log( 'all done' ) )
+	.catch( console.dir );
