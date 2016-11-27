@@ -1,4 +1,9 @@
 module.exports = {
-	source: '',
-	destination: '',
+	accounts: [
+		{
+			comment: 'some description to identify this group',
+			source: '',
+			destination: '',
+		},
+	],
 };
