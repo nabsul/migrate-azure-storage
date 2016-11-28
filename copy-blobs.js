@@ -5,10 +5,11 @@ const copyBlobs = ( source, destination ) => {
 	const sourceClient = new BlobClient( source );
 	const destinationClient = new BlobClient( destination );
 
-	const copyBlob = ( container, name ) => {
+	const copyBlob = ( container, entry ) => {
 		let retries = 3;
-		const readStreamTask = sourceClient.getReadStreamAsync( container, name );
-		const writeStreamTask = destinationClient.getWriteStreamAsync( container, name );
+		const readStreamTask = sourceClient.getReadStreamAsync( container, entry.name );
+		const streamSettings = { contentSettings: { contentType: entry.contentSettings.contentType } };
+		const writeStreamTask = destinationClient.getWriteStreamAsync( container, entry.name, streamSettings );
 		return Promise.all( [ readStreamTask, writeStreamTask ] )
 			.then( _.spread( ( readStream, writeStream ) => {
 				readStream.pipe( writeStream );
@@ -34,7 +35,7 @@ const copyBlobs = ( source, destination ) => {
 				} );
 			} ) )
 			.then( () => {
-				console.log( `Copied blob: ${name}` );
+				console.log( `Copied blob: ${entry.name}` );
 			} )
 			.catch( ( error ) => {
 				if ( 0 >= retries-- ) {
@@ -42,7 +43,7 @@ const copyBlobs = ( source, destination ) => {
 				}
 
 				console.log( 'Failed, retrying...' );
-				return copyBlob( container, name );
+				return copyBlob( container, entry.name );
 			} );
 	};
 
@@ -58,7 +59,7 @@ const copyBlobs = ( source, destination ) => {
 				return sourceClient.listBlobsAsync( container, token );
 			} )
 			.then( ( result ) => {
-				const reducer = ( task, entry ) => task.then( () => copyBlob( container, entry.name ) );
+				const reducer = ( task, entry ) => task.then( () => copyBlob( container, entry ) );
 				return _.reduce( result.entries, reducer, Promise.resolve() )
 					.then( () => result );
 			} )
