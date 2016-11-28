@@ -1,7 +1,7 @@
 const _ = require( 'lodash' );
 const config = require( 'config' );
-const copyBlobs = require( './copy-blobs' );
-const copyTables = require( './copy-tables' );
+const copyBlobs = require( './lib/copy-blobs' );
+const copyTables = require( './lib/copy-tables' );
 
 const copyData = ( name, source, destination ) => {
 	console.log( `Copying: ${name}` );

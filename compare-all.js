@@ -1,7 +1,7 @@
 const _ = require( 'lodash' );
 const config = require( 'config' );
-const compareBlobs = require( './compare-blobs' );
-const compareTables = require( './compare-tables' );
+const compareBlobs = require( './lib/compare-blobs' );
+const compareTables = require( './lib/compare-tables' );
 
 const compareData = ( name, source, destination ) => {
 	console.log( `Comparing: ${name}` );

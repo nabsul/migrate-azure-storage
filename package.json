@@ -4,6 +4,8 @@
   "description": "Copies data from one azure account to another",
   "main": "index.js",
   "scripts": {
+    "copy": "node ./copy-all.js",
+    "compare": "node ./compare-all.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Nabeel Sulieman",
